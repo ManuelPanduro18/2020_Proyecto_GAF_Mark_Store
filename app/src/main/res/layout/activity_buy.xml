@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".BuyActivity">
+    
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:foreground="?android:attr/selectableItemBackground"
+        tools:ignore="MissingConstraints">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/foto_image"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:scaleType="centerCrop"
+                android:adjustViewBounds="true"
+                android:src="@mipmap/ic_launcher" />
+
+            <TextView
+                android:id="@+id/nombre_pro2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/foto_image"
+                android:textSize="18sp"
+                android:padding="16dp"
+                android:textStyle="bold"
+                android:text="Nombre del Producto"/>
+
+            <TextView
+                android:id="@+id/descripcion_pro2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/nombre_pro2"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:textSize="16sp"
+                android:text="Intel Core i7 es una familia de procesadores 4 núcleos de la arquitectura Intel x86-64, lanzados al comercio en 2008."/>
+
+            <TextView
+                android:id="@+id/precio_pro2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/descripcion_pro2"
+                android:padding="16dp"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:text="Precio: S/. 200.00"/>
+            <TextView
+                android:id="@+id/cantidadPro"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/precio_pro2"
+                android:padding="16dp"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:text="Cantidad a llevar: 12"/>
+            <TextView
+                android:id="@+id/totalPro"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/cantidadPro"
+                android:padding="16dp"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:text="Total de venta: S/.20.00"/>
+
+        </RelativeLayout>
+
+
+    </androidx.cardview.widget.CardView>
+</androidx.constraintlayout.widget.ConstraintLayout>
