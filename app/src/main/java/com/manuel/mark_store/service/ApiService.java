@@ -28,6 +28,9 @@ public interface ApiService {
     @GET("/empresas")
     Call<List<Empresa>> getEmpresas();
 
+    @GET("/empresas/{idEmpresa}")
+    Call<List<Empresa>>getEmpresas2(@Path("idEmpresa")Integer idEmpresa);
+
     @GET("/categoriaE/{empresa_id}")
     Call<List<Categoria>>showCategoria(@Path("empresa_id") Integer empresa_id);
 
@@ -72,7 +75,8 @@ public interface ApiService {
                                       @Field("encargado")String encargado,
                                       @Field("telf_encarg")Integer telf_encarg,
                                       @Field("vuelto")Double vuelto,
-                                      @Field("digitos")Integer digitos);
+                                      @Field("digitos")Integer digitos,
+                                     @Field("medio_pago")String medio_pago);
 
     @FormUrlEncoded
     @POST("/detalle")

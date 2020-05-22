@@ -78,7 +78,7 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/txtidpedido"
+                        android:id="@+id/txtidpedido2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="@dimen/spacing_medium"
@@ -128,7 +128,7 @@
                         android:layout_width="5dp"
                         android:layout_height="0dp" />
                     <TextView
-                        android:id="@+id/txtTotalDetalle"
+                        android:id="@+id/txtTotalDetalle2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="@dimen/spacing_medium"
@@ -159,8 +159,9 @@
                     <View
                         android:layout_width="5dp"
                         android:layout_height="0dp" />
+
                     <TextView
-                        android:id="@+id/txtCantidadDetalle"
+                        android:id="@+id/txtCantidadDetalle2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="@dimen/spacing_medium"
@@ -170,52 +171,6 @@
                         android:textColor="@color/grey_60" />
 
                 </LinearLayout>
-
-            </LinearLayout>
-
-
-
-
-
-
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="1dp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/spacing_medium"
-                    android:text="Tu vuelto será de:"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                    android:textColor="@color/grey_60"
-                    android:textStyle="bold"/>
-
-                <View
-                    android:layout_width="@dimen/spacing_large"
-                    android:layout_height="0dp" />
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/txtVueltoDetalle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/spacing_medium"
-                        android:text="S/. 8.00"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                        android:textColor="@color/grey_60" />
-
-                </LinearLayout>
-
 
             </LinearLayout>
 
@@ -243,7 +198,7 @@
                         android:layout_height="0dp" />
                     <TextView
                         android:layout_marginRight="45dp"
-                        android:id="@+id/txtdetallerocojo"
+                        android:id="@+id/txtdetallerocojo2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="@dimen/spacing_medium"
@@ -254,6 +209,7 @@
                 </LinearLayout>
 
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -279,7 +235,7 @@
                         android:layout_width="5dp"
                         android:layout_height="0dp" />
                     <TextView
-                        android:id="@+id/txtdetallepago"
+                        android:id="@+id/txtdetallepago2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="@dimen/spacing_medium"
@@ -309,11 +265,11 @@
                     <View
                         android:layout_width="5dp"
                         android:layout_height="0dp" />
+
                     <TextView
-                        android:layout_marginRight="45dp"
-                        android:id="@+id/txtdetallemedio"
+                        android:id="@+id/txtDetallemedio2"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:layout_marginBottom="@dimen/spacing_medium"
                         android:text="----"
                         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
@@ -350,12 +306,204 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/spacing_medium"
+                    android:text="Titular:"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                    android:textColor="@color/grey_60"
+                    android:textStyle="bold"/>
+
+                <View
+                    android:layout_width="@dimen/spacing_large"
+                    android:layout_height="0dp" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/txtTitular_cuenta"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/spacing_medium"
+                        android:text="Jorge Salazar"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                        android:textColor="@color/grey_60" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/spacing_medium"
+                    android:text="Banco:"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                    android:textColor="@color/grey_60"
+                    android:textStyle="bold"/>
+
+                <View
+                    android:layout_width="@dimen/spacing_large"
+                    android:layout_height="0dp" />
+
+                <TextView
+                    android:id="@+id/txtBanco"
+                    android:layout_marginRight="85dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/spacing_medium"
+                    android:text="BCP"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                    android:textColor="@color/grey_60"
+                    android:textStyle="bold"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/spacing_medium"
+                    android:text="Número de cuenta:"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                    android:textColor="@color/grey_60"
+                    android:textStyle="bold"/>
+
+                <View
+                    android:layout_width="@dimen/spacing_large"
+                    android:layout_height="0dp" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/txtnum_tarjeta"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/spacing_medium"
+                        android:text="123456678132144"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                        android:textColor="@color/grey_60" />
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/spacing_medium"
+                        android:text="CC:"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                        android:textColor="@color/grey_60"
+                        android:textStyle="bold"/>
+
+                    <View
+                        android:layout_width="5dp"
+                        android:layout_height="0dp" />
+                    <TextView
+                        android:id="@+id/txtCC"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/spacing_medium"
+                        android:text="123456678132144"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                        android:textColor="@color/grey_60" />
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="@dimen/spacing_large"
+                    android:layout_height="0dp" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/spacing_medium"
+                        android:text="CCI:"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                        android:textColor="@color/grey_60"
+                        android:textStyle="bold"/>
+                    <View
+                        android:layout_width="5dp"
+                        android:layout_height="0dp" />
+
+                    <TextView
+                        android:id="@+id/txtCCI"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/spacing_medium"
+                        android:text="123456678132144"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                        android:textColor="@color/grey_60" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="1dp"
                 android:orientation="horizontal">
 
                 <View
                     android:layout_width="@dimen/spacing_large"
                     android:layout_height="0dp" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                android:orientation="horizontal">
+
+                <View
+                    android:layout_width="@dimen/spacing_large"
+                    android:layout_height="0dp" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+                    <View
+                        android:layout_width="@dimen/spacing_large"
+                        android:layout_height="30dp" />
+
+                </LinearLayout>
 
 
             </LinearLayout>
@@ -385,7 +533,7 @@
                         android:layout_width="5dp"
                         android:layout_height="0dp" />
                     <TextView
-                        android:id="@+id/txtFechaDetalle"
+                        android:id="@+id/txtFechaDetalle2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="@dimen/spacing_medium"
@@ -417,7 +565,7 @@
                         android:layout_height="0dp" />
                     <TextView
                         android:layout_marginRight="45dp"
-                        android:id="@+id/txtHoraentrega"
+                        android:id="@+id/txtHoraentrega2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="@dimen/spacing_medium"
@@ -450,13 +598,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/spacing_medium"
-                    android:text="Se enviará este resumen a tu email registrado"
-                    android:textAlignment="center"
-                    android:layout_gravity="center"
+                    android:text="Se enviará este resumen a tu email registrado-"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                     android:textColor="@color/grey_60"
                     android:textSize="17dp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"/>
 
 
             </LinearLayout>

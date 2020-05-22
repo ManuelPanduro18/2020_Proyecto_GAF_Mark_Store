@@ -47,7 +47,8 @@ public class CarShopFragment extends Fragment {
     private MaterialRippleLayout riplecomprar;
     double totalmonto = 0;
     int totalcarrito = 0;
-    Integer id_producto;
+    Integer id_producto, id_empresa;
+    String banco,titular,numero,cc,cci;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -62,25 +63,6 @@ public class CarShopFragment extends Fragment {
         riplecomprar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*if (edtrecojo.getText().toString().trim().equals("Escoger")){
-                    Toast.makeText(v.getContext(), "Escoga otra forma de entrega", Toast.LENGTH_SHORT).show();
-                }else {
-                    if (edtpago.getText().toString().trim().equals("--Seleccionar--")){
-                        Toast.makeText(v.getContext(), "Escoga una forma de pago", Toast.LENGTH_SHORT).show();
-                    }else {
-                        if (edtpago.getText().toString().trim().equals("Efectivo") && edtrecojo.getText().toString().equals("Recogo en tienda")){
-                            showDialogFullscreenContaSinDire();
-                        }else if (edtpago.getText().toString().trim().equals("Efectivo") && edtrecojo.getText().toString().equals("Delivery")){
-                            showDialogFullscreenConta();
-                        }
-                        if (edtpago.getText().toString().trim().equals("Depósito en cuenta") && edtrecojo.getText().toString().equals("Recogo en tienda")){
-                            showDialogFullscreenDepoSinDire();
-                        }else if (edtpago.getText().toString().trim().equals("Depósito en cuenta") && edtrecojo.getText().toString().equals("Delivery")){
-                            showDialogFullscreenDepo();
-                        }
-                    }
-                }*/
-
                 showDialogFullscreen();
             }
         });
@@ -111,6 +93,12 @@ public class CarShopFragment extends Fragment {
                             totalmonto = totalmonto + carritos.get(i).getNuevoValor();
                             totalcarrito= totalcarrito + carritos.get(i).getTotal();
                             id_producto = carritos.get(i).getProducto().getIdproductos();
+                            id_empresa = carritos.get(i).getProducto().getEmpresa().getIdEmpresa();
+                            banco = carritos.get(i).getProducto().getEmpresa().getBanco();
+                            titular = carritos.get(i).getProducto().getEmpresa().getTitular_cuenta();
+                            numero = carritos.get(i).getProducto().getEmpresa().getNum_tarjeta();
+                            cc = carritos.get(i).getProducto().getEmpresa().getCc();
+                            cci = carritos.get(i).getProducto().getEmpresa().getCci();
                         }
 
                         total.setText("S/."+Double.toString(totalmonto));
@@ -150,6 +138,12 @@ public class CarShopFragment extends Fragment {
         bundle.putDouble("totalmonto", totalmonto);
         bundle.putInt("id_producto", id_producto);
         bundle.putInt("totalcarrito", totalcarrito);
+        bundle.putInt("id_empresa",id_empresa);
+        bundle.putString("titular_cuenta",titular);
+        bundle.putString("banco",banco);
+        bundle.putString("num_tarjeta",numero);
+        bundle.putString("cc",cc);
+        bundle.putString("cci",cci);
         transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
         newFragment.setArguments(bundle);
         transaction.add(android.R.id.content, newFragment).addToBackStack(null).commit();

@@ -13,7 +13,10 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -24,10 +27,12 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.manuel.mark_store.models.Cliente;
+import com.manuel.mark_store.models.Empresa;
 import com.manuel.mark_store.models.ResponseMessage;
 import com.manuel.mark_store.service.ApiService;
 import com.manuel.mark_store.service.ApiServiceGenerator;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
+import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -58,17 +63,20 @@ public class DialogPaymentFragment extends DialogFragment {
     private int request_code = 0;
     private View root_view;
     private EditText edtrecojo,edtdireccion,txttotal,edtDigitoTarjeta, edtContado,edtCredito;
-    private EditText edtpago,edtfechapedido,edtMontopago,edtEncargado, edtTelefono;
-    private TextView txtDireccionPedido,txtMontoPagoPedido,txtDigitoTarjetaPedido,txtContado;
+    private EditText edtpago,edtfechapedido,edtMontopago,edtEncargado, edtTelefono,edtHoraPedido;
+    private TextView txtDireccionPedido,txtMontoPagoPedido,txtDigitoTarjetaPedido,txtSoles;
     private Button btn_continuarpedido;
-    Integer cantidadCarrito, id_producto;
+    Integer cantidadCarrito, id_producto, id_empresa;
     private Double total;
-    String fecha1,fecha2,fecha3,fecha4,fecha5,fecha6,fecha7;
+    String banco,titular,numero,cc,cci;
     String direccion;
     String currentTime;
     String encargado;
-    String submitDate;
+    String submitDate,medioPago;
     Integer celular;
+
+    //Horario
+    int horaIni,horaFin;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -90,6 +98,24 @@ public class DialogPaymentFragment extends DialogFragment {
         total = getArguments().getDouble("totalmonto");
         Log.e(TAG,"total: "+total);
 
+        id_empresa = getArguments().getInt("id_empresa");
+        Log.e(TAG,"Empresa id: "+id_empresa);
+
+        banco = getArguments().getString("banco");
+        Log.e(TAG,"banco de la empresa: "+banco);
+
+        titular = getArguments().getString("titular_cuenta");
+        Log.e(TAG,"titular: "+titular);
+
+        numero = getArguments().getString("num_tarjeta");
+        Log.e(TAG,"numero de tarjeta: "+numero);
+
+        cc = getArguments().getString("cc");
+        Log.e(TAG,"cc: "+cc);
+
+        cci = getArguments().getString("cci");
+        Log.e(TAG,"cci: "+cci);
+
         txttotal = root_view.findViewById(R.id.txttotal);
         edtdireccion = root_view.findViewById(R.id.edtDireccionPedido);
         edtMontopago = root_view.findViewById(R.id.edtMontopagodepedido);
@@ -97,8 +123,14 @@ public class DialogPaymentFragment extends DialogFragment {
         edtDigitoTarjeta.setVisibility(View.GONE);
         edtEncargado = root_view.findViewById(R.id.edtEncargadoPedido);
         edtTelefono = root_view.findViewById(R.id.edtCelularencargadoPedido);
+        edtHoraPedido = root_view.findViewById(R.id.edt_hora);
 
-
+        edtHoraPedido.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialogTimePickerLight((EditText) v);
+            }
+        });
 
 
         txtMontoPagoPedido = root_view.findViewById(R.id.txtMontopagoPedido);
@@ -106,8 +138,6 @@ public class DialogPaymentFragment extends DialogFragment {
         //-----------------------------//
         txtDigitoTarjetaPedido = root_view.findViewById(R.id.txtDigitoTarjetaPedido);
         txtDigitoTarjetaPedido.setVisibility(View.GONE);
-
-        txtContado = root_view.findViewById(R.id.txtContado);
 
         edtfechapedido = root_view.findViewById(R.id.edtFechaPedido);
         edtfechapedido.setOnClickListener(new View.OnClickListener() {
@@ -168,70 +198,6 @@ public class DialogPaymentFragment extends DialogFragment {
 
         txttotal.setText(Double.toString(total));
 
-        /*//Fecha1
-        Calendar calendar = Calendar.getInstance();
-        calendar.setLenient(false);
-
-        calendar.setTime(date); // Configuramos la fecha que se recibe
-        calendar.add(calendar.DAY_OF_YEAR, 2);
-        //------------------------------------------//
-
-        //Fecha2
-        Calendar calendar2 = Calendar.getInstance();
-        calendar2.setLenient(false);
-
-        calendar2.setTime(date); // Configuramos la fecha que se recibe
-        calendar2.add(calendar2.DAY_OF_YEAR, 3);
-        //------------------------------------------//
-
-        //Fecha3
-        Calendar calendar3 = Calendar.getInstance();
-        calendar3.setLenient(false);
-
-        calendar3.setTime(date); // Configuramos la fecha que se recibe
-        calendar3.add(calendar3.DAY_OF_YEAR, 4);
-        //------------------------------------------//
-
-        //Fecha4
-        Calendar calendar4 = Calendar.getInstance();
-        calendar4.setLenient(false);
-
-        calendar4.setTime(date); // Configuramos la fecha que se recibe
-        calendar4.add(calendar4.DAY_OF_YEAR, 5);
-        //------------------------------------------//
-
-        //Fecha5
-        Calendar calendar5 = Calendar.getInstance();
-        calendar5.setLenient(false);
-
-        calendar5.setTime(date); // Configuramos la fecha que se recibe
-        calendar5.add(calendar2.DAY_OF_YEAR, 6);
-        //------------------------------------------//
-
-        //Fecha6
-        Calendar calendar6 = Calendar.getInstance();
-        calendar6.setLenient(false);
-
-        calendar6.setTime(date); // Configuramos la fecha que se recibe
-        calendar6.add(calendar2.DAY_OF_YEAR, 7);
-        //------------------------------------------//
-
-        //Fecha7
-        Calendar calendar7 = Calendar.getInstance();
-        calendar2.setLenient(false);
-
-        calendar7.setTime(date); // Configuramos la fecha que se recibe
-        calendar7.add(calendar2.DAY_OF_YEAR, 8);
-        //------------------------------------------//*
-
-        /*fecha1 = dateFormat.format(calendar.getTime());
-        fecha2 = dateFormat.format(calendar2.getTime());
-        fecha3 = dateFormat.format(calendar3.getTime());
-        fecha4 = dateFormat.format(calendar4.getTime());
-        fecha5 = dateFormat.format(calendar5.getTime());
-        fecha6 = dateFormat.format(calendar6.getTime());
-        fecha7 = dateFormat.format(calendar7.getTime());*/
-
         btn_continuarpedido = root_view.findViewById(R.id.bt_continuarPedido);
         btn_continuarpedido.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.O)
@@ -248,120 +214,141 @@ public class DialogPaymentFragment extends DialogFragment {
                     if (edtpago.getText().toString().trim().equals("--Seleccionar--")){
                         Toast.makeText(v.getContext(), "Escoga una forma de pago", Toast.LENGTH_SHORT).show();
                     }else {
-                        if (edtfechapedido.getText().toString().trim().equals("Seleccione la fecha")){
+                        if (edtfechapedido.getText().toString().trim().equals("Seleccione fecha")){
                             Toast.makeText(v.getContext(), "Se requiere una fecha para su pedido", Toast.LENGTH_SHORT).show();
                         }else{
-                            Date date = new Date();
-
-                            //Caso 1: obtener la hora y salida por pantalla con formato:
-                            DateFormat hourFormat = new SimpleDateFormat("HH:mm:ss");
-                            //System.out.println("Hora: "+hourFormat.format(date));
-                            //Caso 2: obtener la fecha y salida por pantalla con formato:
-                            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-                            //System.out.println("Fecha: "+dateFormat.format(date));
-                            DateFormat hourdateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-
-                            currentTime = hourdateFormat.format(date);
-
-                            Double total = Double.parseDouble(txttotal.getText().toString());
-                            String pago = edtpago.getText().toString();
-                            String recojo = edtrecojo.getText().toString();
-
-                            String fecha_ped = edtfechapedido.getText().toString();
-                            SimpleDateFormat format = new SimpleDateFormat("d MMM yyyy");
-                            try {
-                                Date date1 = format.parse(fecha_ped);
-                                submitDate = hourdateFormat.format(date1);
-                            }catch (ParseException e){
-                                e.printStackTrace();
-                            }
-
-                            /*DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEE, d MMM yyyy HH:mm:ss");
-                            LocalDate dateTime = LocalDate.parse(fecha_ped, formatter);
-                            submitDate = hourdateFormat.format(dateTime);*/
-
-                            /*DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEE, dd MMM yyyy HH:mm:ss zzz", Locale.ENGLISH);
-                            LocalDate dateTime = LocalDate.parse(fecha_ped, formatter);
-
-                            submitDate = dateFormat.format(dateTime);*/
-                            /*try {
-                                Date date2 = dateFormat.parse(fecha_ped);
-                                submitDate = hourdateFormat.format(date2);
-
-                            }catch (ParseException e){
-                                e.printStackTrace();
-                            }*/
-
-                            Double vuelto;
-                            Integer digitos;
-                            if (edtEncargado.getText().toString().isEmpty()){
-                                encargado = "Ninguno";
-                            }else {
-                                encargado = edtEncargado.getText().toString();
-                            }
-                            if (edtTelefono.getText().toString().isEmpty()){
-                                celular = 0;
+                            if (edtContado.getText().toString().trim().equals("Tarjeta dédito")){
+                                Toast.makeText(v.getContext(), "Ingrese dígitos de su tarjeta", Toast.LENGTH_SHORT).show();
                             }else{
-                                celular = Integer.parseInt(edtTelefono.getText().toString());
-                            }
-                            if (edtDigitoTarjeta.getText().toString().isEmpty()){
-                                digitos = 0;
-                            }else {
-                                digitos = Integer.parseInt(edtDigitoTarjeta.getText().toString());
-                            }
-                            if (edtMontopago.getText().toString().isEmpty()){
-                                vuelto = 0.0;
-                            }else {
-                                vuelto=Double.parseDouble(edtMontopago.getText().toString()) - total;
-                            }
+                                if (edtHoraPedido.getText().toString().trim().equals("Seleccione hora")){
+                                    Toast.makeText(v.getContext(), "Se requiere una hora para su pedido", Toast.LENGTH_SHORT).show();
+                                }else {
+                                    Date date = new Date();
 
-                            ApiService service = ApiServiceGenerator.createService(ApiService.class);
-                            Call<ResponseMessage> call = service.crearPedido(currentTime, total, pago,recojo,direccion,submitDate,encargado,celular,vuelto,digitos);
-                            call.enqueue(new Callback<ResponseMessage>() {
-                                @Override
-                                public void onResponse(Call<ResponseMessage> call, Response<ResponseMessage> response) {
+                                    //Caso 1: obtener la hora y salida por pantalla con formato:
+                                    DateFormat hourFormat = new SimpleDateFormat("HH:mm:ss");
+                                    //System.out.println("Hora: "+hourFormat.format(date));
+                                    //Caso 2: obtener la fecha y salida por pantalla con formato:
+                                    DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                                    //System.out.println("Fecha: "+dateFormat.format(date));
+                                    DateFormat hourdateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+                                    currentTime = hourdateFormat.format(date);
+
+                                    Double total = Double.parseDouble(txttotal.getText().toString());
+                                    String pago = edtpago.getText().toString();
+                                    String recojo = edtrecojo.getText().toString();
+
+                                    String fecha_ped = edtfechapedido.getText().toString();
+                                    SimpleDateFormat format = new SimpleDateFormat("d MMM yyyy");
+                                    String hora_ped = edtHoraPedido.getText().toString();
+                                    String[] parts = hora_ped.split(":");
+                                    String hora = parts[0];
+                                    int hora1  = Integer.parseInt(hora);
+                                    SimpleDateFormat format1 = new SimpleDateFormat("HH:mm");
+                                /*try {
+                                    Date date1 = format.parse(fecha_ped);
+                                    submitDate = hourdateFormat.format(date1);
+                                }catch (ParseException e){
+                                    e.printStackTrace();
+                                }*/
+
                                     try {
+                                        Date date1 = format.parse(fecha_ped);
+                                        Date date2 = format1.parse(hora_ped);
+                                        SimpleDateFormat format3 = new SimpleDateFormat("d MMM yyyy HH:mm");
+                                        Date date3 = format3.parse(fecha_ped+" "+hora_ped);
+                                        submitDate = hourdateFormat.format(date3);
+                                    }catch (ParseException e){
+                                        e.printStackTrace();
+                                    }
 
-                                        int statusCode = response.code();
-                                        Log.d(TAG, "HTTP status code: " + statusCode);
+                                    if (edtpago.getText().toString().trim().equals("Contado")){
+                                        medioPago = edtContado.getText().toString();
+                                    }else if (edtpago.getText().toString().trim().equals("Crédito")){
+                                        medioPago = edtCredito.getText().toString();
+                                    }
 
-                                        if (response.isSuccessful()) {
+                                    Double vuelto;
+                                    Integer digitos;
+                                    if (edtEncargado.getText().toString().isEmpty()){
+                                        encargado = "Ninguno";
+                                    }else {
+                                        encargado = edtEncargado.getText().toString();
+                                    }
+                                    if (edtTelefono.getText().toString().isEmpty()){
+                                        celular = 0;
+                                    }else{
+                                        celular = Integer.parseInt(edtTelefono.getText().toString());
+                                    }
+                                    if (edtDigitoTarjeta.getText().toString().isEmpty()){
+                                        digitos = 0;
+                                    }else {
+                                        digitos = Integer.parseInt(edtDigitoTarjeta.getText().toString());
+                                    }
+                                    if (edtMontopago.getText().toString().isEmpty()){
+                                        vuelto = 0.0;
+                                    }else {
+                                        vuelto=Double.parseDouble(edtMontopago.getText().toString()) - total;
+                                    }
 
-                                            ResponseMessage responseMessage = response.body();
-                                            Log.d(TAG, "responseMessage: " + responseMessage);
+                                    if (hora1 >= horaIni && hora1 <= horaFin ){
+                                        ApiService service = ApiServiceGenerator.createService(ApiService.class);
+                                        Call<ResponseMessage> call = service.crearPedido(currentTime, total, pago,recojo,direccion,submitDate,encargado,celular,vuelto,digitos,medioPago);
+                                        call.enqueue(new Callback<ResponseMessage>() {
+                                            @Override
+                                            public void onResponse(Call<ResponseMessage> call, Response<ResponseMessage> response) {
+                                                try {
 
-                                            Toast.makeText(v.getContext(), responseMessage.getMessage(), Toast.LENGTH_LONG).show();
-                                            showDialogFullscreen();
+                                                    int statusCode = response.code();
+                                                    Log.d(TAG, "HTTP status code: " + statusCode);
 
-                                        } else {
-                                            Log.e(TAG, "onError: " + response.errorBody().string());
-                                            throw new Exception("Error en el servicio");
-                                        }
+                                                    if (response.isSuccessful()) {
 
-                                    } catch (Throwable t) {
-                                        try {
-                                            Log.e(TAG, "onThrowable: " + t.toString(), t);
-                                            Toast.makeText(v.getContext(), t.getMessage(), Toast.LENGTH_LONG).show();
-                                        } catch (Throwable x) {
-                                        }
+                                                        ResponseMessage responseMessage = response.body();
+                                                        Log.d(TAG, "responseMessage: " + responseMessage);
+
+                                                        Toast.makeText(v.getContext(), responseMessage.getMessage(), Toast.LENGTH_LONG).show();
+                                                        if (edtContado.getText().toString().trim().equals("Efectivo")){
+                                                            showDialogFullscreen();
+                                                        }else {
+                                                            if (edtContado.getText().toString().trim().trim().equals("Depósito en cuenta")){
+                                                                showDialogFullscreenDepos();
+                                                            }
+                                                            if(edtContado.getText().toString().trim().trim().equals("Tarjeta dédito")){
+                                                                showDialogFullscreenDepos();
+                                                            }
+                                                        }
+                                                    } else {
+                                                        Log.e(TAG, "onError: " + response.errorBody().string());
+                                                        throw new Exception("Error en el servicio");
+                                                    }
+
+                                                } catch (Throwable t) {
+                                                    try {
+                                                        Log.e(TAG, "onThrowable: " + t.toString(), t);
+                                                        Toast.makeText(v.getContext(), t.getMessage(), Toast.LENGTH_LONG).show();
+                                                    } catch (Throwable x) {
+                                                    }
+                                                }
+                                            }
+                                            @Override
+                                            public void onFailure(Call<ResponseMessage> call, Throwable t) {
+                                                Log.e(TAG, "onFailure: " + t.toString());
+                                                Toast.makeText(v.getContext(), t.getMessage(), Toast.LENGTH_LONG).show();
+                                            }
+                                        });
+                                    }else {
+                                        Toast.makeText(v.getContext(), "Hora fuera de atención", Toast.LENGTH_SHORT).show();
                                     }
                                 }
-
-                                @Override
-                                public void onFailure(Call<ResponseMessage> call, Throwable t) {
-                                    Log.e(TAG, "onFailure: " + t.toString());
-                                    Toast.makeText(v.getContext(), t.getMessage(), Toast.LENGTH_LONG).show();
-                                }
-
-                            });
+                            }
                         }
-
-
                     }
                 }
             }
         });
-
+        initialize2();
         initialize();
         return root_view;
     }
@@ -410,6 +397,52 @@ public class DialogPaymentFragment extends DialogFragment {
         });
     }
 
+    public void initialize2(){
+        ApiService service = ApiServiceGenerator.createService(ApiService.class);
+        Call<List<Empresa>> call=service.getEmpresas2(id_empresa);
+        call.enqueue(new Callback<List<Empresa>>() {
+            @Override
+            public void onResponse(Call<List<Empresa>> call, Response<List<Empresa>> response) {
+                try {
+
+                    int statusCode = response.code();
+                    Log.d(TAG, "HTTP status code: " + statusCode);
+
+                    if (response.isSuccessful()) {
+
+                        List<Empresa> empresas = response.body();
+                        Log.d(TAG, "empresas: " + empresas);
+
+                        for (int i = 0; i<empresas.size();i++){
+                            horaIni = empresas.get(i).getHoraIni();
+                            horaFin = empresas.get(i).getHoraFin();
+                        }
+
+
+                    } else {
+                        Log.e(TAG, "onError: " + response.errorBody().string());
+                        throw new Exception("Error en el servicio");
+                    }
+
+                } catch (Throwable t) {
+                    try {
+                        Log.e(TAG, "onThrowable: " + t.toString(), t);
+                        Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_LONG).show();
+                    }catch (Throwable x){}
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Empresa>> call, Throwable t) {
+                Log.e(TAG, "onFailure: " + t.toString());
+                Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_LONG).show();
+            }
+
+        });
+
+    }
+
+
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -438,6 +471,23 @@ public class DialogPaymentFragment extends DialogFragment {
         newFragment.setArguments(bundle);
         transaction.add(android.R.id.content, newFragment).addToBackStack(null).commit();
     }
+    private void showDialogFullscreenDepos() {
+        Bundle bundle = new Bundle();
+        FragmentManager fragmentManager = getFragmentManager();
+        DialogDetallePedDeposFragment newFragment = new DialogDetallePedDeposFragment();
+        newFragment.setRequestCode(DIALOG_QUEST_CODE);
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+        bundle.putInt("cantidadcarrito", cantidadCarrito);
+        bundle.putInt("producto_id", id_producto);
+        bundle.putString("banco", banco);
+        bundle.putString("titular_cuenta",titular);
+        bundle.putString("num_tarjeta",numero);
+        bundle.putString("cc",cc);
+        bundle.putString("cci",cci);
+        newFragment.setArguments(bundle);
+        transaction.add(android.R.id.content, newFragment).addToBackStack(null).commit();
+    }
 
     private void showRecojoDialog(final View v) {
         final String[] array = new String[]{
@@ -459,30 +509,8 @@ public class DialogPaymentFragment extends DialogFragment {
                 dialogInterface.dismiss();
             }
         });
-
-        /*builder.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (position == 0){
-                    edtdireccion.setVisibility(View.VISIBLE);
-                }else {
-                    edtdireccion.setVisibility(View.GONE);
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                edtdireccion.setVisibility(View.GONE);
-            }
-        });*/
         builder.show();
     }
-    /*private void updateLabel() {
-        String myFormat = "MM/dd/yy"; //In which you need put here
-        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
-
-        edtfechapedido.setText(sdf.format(myCalendar.getTime()));
-    }*/
     private void dialogDatePickerLight(final EditText bt) {
         Calendar cur_calender = Calendar.getInstance();
         DatePickerDialog datePicker = DatePickerDialog.newInstance(
@@ -510,6 +538,25 @@ public class DialogPaymentFragment extends DialogFragment {
         datePicker.show(getActivity().getFragmentManager(), "Datepickerdialog");
     }
 
+    private void dialogTimePickerLight(final EditText bt) {
+        Calendar cur_calender = Calendar.getInstance();
+        TimePickerDialog datePicker = TimePickerDialog.newInstance(new TimePickerDialog.OnTimeSetListener() {
+            @Override
+            public void onTimeSet(TimePickerDialog view, int hourOfDay, int minute, int second) {
+                Calendar cur_calender = Calendar.getInstance();
+                cur_calender.set(Calendar.HOUR_OF_DAY, hourOfDay);
+                cur_calender.set(Calendar.MINUTE,minute);
+                String myFormat = "HH:mm";
+                SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
+                ((EditText) root_view.findViewById(R.id.edt_hora)).setText(sdf.format(cur_calender.getTime()));
+            }
+        }, cur_calender.get(Calendar.HOUR_OF_DAY), cur_calender.get(Calendar.MINUTE), true);
+        //set dark light
+        datePicker.setThemeDark(false);
+        datePicker.setAccentColor(getResources().getColor(R.color.colorPrimary));
+        datePicker.show(getActivity().getFragmentManager(), "Timepickerdialog");
+    }
+
     private void showPagoDialog(final View v) {
         final String[] array = new String[]{
                 "Contado","Crédito"
@@ -520,58 +567,6 @@ public class DialogPaymentFragment extends DialogFragment {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 ((EditText) v).setText(array[i]);
-                /*if (array[i]=="Efectivo"){
-                    txtMontoPagoPedido.setVisibility(View.VISIBLE);
-                    edtMontopago.setVisibility(View.VISIBLE);
-                }else {
-                    txtMontoPagoPedido.setVisibility(View.GONE);
-                    edtMontopago.setVisibility(View.GONE);
-                }
-                if (array[i]=="Depósito en cuenta"){
-                    txtBanco.setVisibility(View.VISIBLE);
-                    txtTitulartarjeta.setVisibility(View.VISIBLE);
-                    txtnombretitular.setVisibility(View.VISIBLE);
-                    txtCC.setVisibility(View.VISIBLE);
-                    txtCCNumero.setVisibility(View.VISIBLE);
-                    txtCCI.setVisibility(View.VISIBLE);
-                    txtCCINumero.setVisibility(View.VISIBLE);
-                }else{
-                    txtBanco.setVisibility(View.GONE);
-                    txtTitulartarjeta.setVisibility(View.GONE);
-                    txtnombretitular.setVisibility(View.GONE);
-                    txtCC.setVisibility(View.GONE);
-                    txtCCNumero.setVisibility(View.GONE);
-                    txtCCI.setVisibility(View.GONE);
-                    txtCCINumero.setVisibility(View.GONE);
-                }
-                if (array[i]=="Tarjeta Visa"){
-                    txtDigitoTarjetaPedido.setVisibility(View.VISIBLE);
-                    edtDigitoTarjeta.setVisibility(View.VISIBLE);
-                }else {
-                    txtDigitoTarjetaPedido.setVisibility(View.GONE);
-                    edtDigitoTarjeta.setVisibility(View.GONE);
-                }*/
-                /*if (array[i]=="Tarjeta MasterCard"){
-                    txtDigitoTarjetaPedido.setVisibility(View.VISIBLE);
-                    edtDigitoTarjeta.setVisibility(View.VISIBLE);
-                }else {
-                    txtDigitoTarjetaPedido.setVisibility(View.GONE);
-                    edtDigitoTarjeta.setVisibility(View.GONE);
-                }
-                if (array[i]=="Tarjeta American Express"){
-                    txtDigitoTarjetaPedido.setVisibility(View.VISIBLE);
-                    edtDigitoTarjeta.setVisibility(View.VISIBLE);
-                }else {
-                    txtDigitoTarjetaPedido.setVisibility(View.GONE);
-                    edtDigitoTarjeta.setVisibility(View.GONE);
-                }
-                if (array[i]=="Tarjeta Débito"){
-                    txtDigitoTarjetaPedido.setVisibility(View.VISIBLE);
-                    edtDigitoTarjeta.setVisibility(View.VISIBLE);
-                }else {
-                    txtDigitoTarjetaPedido.setVisibility(View.GONE);
-                    edtDigitoTarjeta.setVisibility(View.GONE);
-                }*/
                 if (array[i]=="Contado"){
                     edtContado.setVisibility(View.VISIBLE);
                 }else{
@@ -594,7 +589,7 @@ public class DialogPaymentFragment extends DialogFragment {
     private void showContadoDialog(final View v) {
         final String[] array = new String[]{
                 "Efectivo","Transferencia de fondos","Tarjeta dédito","Tarjeta Crédito", "Depósito en cuenta","Otros medios de pago," +
-                "Cheques","Giro","Transferencias0"
+                "Cheques","Giro","Transferencias"
         };
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setTitle("Sección contado");
@@ -602,64 +597,19 @@ public class DialogPaymentFragment extends DialogFragment {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 ((EditText) v).setText(array[i]);
-                /*if (array[i]=="Efectivo"){
-                    txtMontoPagoPedido.setVisibility(View.VISIBLE);
-                    edtMontopago.setVisibility(View.VISIBLE);
-                }else {
-                    txtMontoPagoPedido.setVisibility(View.GONE);
-                    edtMontopago.setVisibility(View.GONE);
-                }
-                if (array[i]=="Depósito en cuenta"){
-                    txtBanco.setVisibility(View.VISIBLE);
-                    txtTitulartarjeta.setVisibility(View.VISIBLE);
-                    txtnombretitular.setVisibility(View.VISIBLE);
-                    txtCC.setVisibility(View.VISIBLE);
-                    txtCCNumero.setVisibility(View.VISIBLE);
-                    txtCCI.setVisibility(View.VISIBLE);
-                    txtCCINumero.setVisibility(View.VISIBLE);
-                }else{
-                    txtBanco.setVisibility(View.GONE);
-                    txtTitulartarjeta.setVisibility(View.GONE);
-                    txtnombretitular.setVisibility(View.GONE);
-                    txtCC.setVisibility(View.GONE);
-                    txtCCNumero.setVisibility(View.GONE);
-                    txtCCI.setVisibility(View.GONE);
-                    txtCCINumero.setVisibility(View.GONE);
-                }
-                if (array[i]=="Tarjeta Visa"){
-                    txtDigitoTarjetaPedido.setVisibility(View.VISIBLE);
-                    edtDigitoTarjeta.setVisibility(View.VISIBLE);
-                }else {
-                    txtDigitoTarjetaPedido.setVisibility(View.GONE);
-                    edtDigitoTarjeta.setVisibility(View.GONE);
-                }*/
-                /*if (array[i]=="Tarjeta MasterCard"){
-                    txtDigitoTarjetaPedido.setVisibility(View.VISIBLE);
-                    edtDigitoTarjeta.setVisibility(View.VISIBLE);
-                }else {
-                    txtDigitoTarjetaPedido.setVisibility(View.GONE);
-                    edtDigitoTarjeta.setVisibility(View.GONE);
-                }
-                if (array[i]=="Tarjeta American Express"){
-                    txtDigitoTarjetaPedido.setVisibility(View.VISIBLE);
-                    edtDigitoTarjeta.setVisibility(View.VISIBLE);
-                }else {
-                    txtDigitoTarjetaPedido.setVisibility(View.GONE);
-                    edtDigitoTarjeta.setVisibility(View.GONE);
-                }
-                if (array[i]=="Tarjeta Débito"){
-                    txtDigitoTarjetaPedido.setVisibility(View.VISIBLE);
-                    edtDigitoTarjeta.setVisibility(View.VISIBLE);
-                }else {
-                    txtDigitoTarjetaPedido.setVisibility(View.GONE);
-                    edtDigitoTarjeta.setVisibility(View.GONE);
-                }*/
                 if (array[i]=="Efectivo"){
                     txtMontoPagoPedido.setVisibility(View.VISIBLE);
                     edtMontopago.setVisibility(View.VISIBLE);
                 }else {
                     txtMontoPagoPedido.setVisibility(View.GONE);
                     edtMontopago.setVisibility(View.GONE);
+                }
+                if (array[i]=="Tarjeta dédito"){
+                    txtDigitoTarjetaPedido.setVisibility(View.VISIBLE);
+                    edtDigitoTarjeta.setVisibility(View.VISIBLE);
+                }else {
+                    txtDigitoTarjetaPedido.setVisibility(View.GONE);
+                    edtDigitoTarjeta.setVisibility(View.GONE);
                 }
 
                 dialogInterface.dismiss();
@@ -678,58 +628,6 @@ public class DialogPaymentFragment extends DialogFragment {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 ((EditText) v).setText(array[i]);
-                /*if (array[i]=="Efectivo"){
-                    txtMontoPagoPedido.setVisibility(View.VISIBLE);
-                    edtMontopago.setVisibility(View.VISIBLE);
-                }else {
-                    txtMontoPagoPedido.setVisibility(View.GONE);
-                    edtMontopago.setVisibility(View.GONE);
-                }
-                if (array[i]=="Depósito en cuenta"){
-                    txtBanco.setVisibility(View.VISIBLE);
-                    txtTitulartarjeta.setVisibility(View.VISIBLE);
-                    txtnombretitular.setVisibility(View.VISIBLE);
-                    txtCC.setVisibility(View.VISIBLE);
-                    txtCCNumero.setVisibility(View.VISIBLE);
-                    txtCCI.setVisibility(View.VISIBLE);
-                    txtCCINumero.setVisibility(View.VISIBLE);
-                }else{
-                    txtBanco.setVisibility(View.GONE);
-                    txtTitulartarjeta.setVisibility(View.GONE);
-                    txtnombretitular.setVisibility(View.GONE);
-                    txtCC.setVisibility(View.GONE);
-                    txtCCNumero.setVisibility(View.GONE);
-                    txtCCI.setVisibility(View.GONE);
-                    txtCCINumero.setVisibility(View.GONE);
-                }
-                if (array[i]=="Tarjeta Visa"){
-                    txtDigitoTarjetaPedido.setVisibility(View.VISIBLE);
-                    edtDigitoTarjeta.setVisibility(View.VISIBLE);
-                }else {
-                    txtDigitoTarjetaPedido.setVisibility(View.GONE);
-                    edtDigitoTarjeta.setVisibility(View.GONE);
-                }*/
-                /*if (array[i]=="Tarjeta MasterCard"){
-                    txtDigitoTarjetaPedido.setVisibility(View.VISIBLE);
-                    edtDigitoTarjeta.setVisibility(View.VISIBLE);
-                }else {
-                    txtDigitoTarjetaPedido.setVisibility(View.GONE);
-                    edtDigitoTarjeta.setVisibility(View.GONE);
-                }
-                if (array[i]=="Tarjeta American Express"){
-                    txtDigitoTarjetaPedido.setVisibility(View.VISIBLE);
-                    edtDigitoTarjeta.setVisibility(View.VISIBLE);
-                }else {
-                    txtDigitoTarjetaPedido.setVisibility(View.GONE);
-                    edtDigitoTarjeta.setVisibility(View.GONE);
-                }
-                if (array[i]=="Tarjeta Débito"){
-                    txtDigitoTarjetaPedido.setVisibility(View.VISIBLE);
-                    edtDigitoTarjeta.setVisibility(View.VISIBLE);
-                }else {
-                    txtDigitoTarjetaPedido.setVisibility(View.GONE);
-                    edtDigitoTarjeta.setVisibility(View.GONE);
-                }*/
 
                 dialogInterface.dismiss();
             }

@@ -18,6 +18,15 @@ public class Pedido {
     private String tipo_pedido;
     private Double vuelto;
     private Integer digitos;
+    private String medio_pago;
+
+    public String getMedio_pago() {
+        return medio_pago;
+    }
+
+    public void setMedio_pago(String medio_pago) {
+        this.medio_pago = medio_pago;
+    }
 
     public Integer getIdPedido() {
         return idPedido;
@@ -157,6 +166,7 @@ public class Pedido {
                 ", tipo_pedido='" + tipo_pedido + '\'' +
                 ", vuelto=" + vuelto +
                 ", digitos=" + digitos +
+                ", medio_pago='" + medio_pago + '\'' +
                 '}';
     }
 }

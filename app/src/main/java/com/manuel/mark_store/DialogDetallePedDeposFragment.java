@@ -2,8 +2,33 @@ package com.manuel.mark_store;
 
 import android.app.Dialog;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
+import android.os.StrictMode;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.DialogFragment;
+
+import com.manuel.mark_store.models.Pedido;
+import com.manuel.mark_store.models.ResponseMessage;
+import com.manuel.mark_store.service.ApiService;
+import com.manuel.mark_store.service.ApiServiceGenerator;
+
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+import java.util.Properties;
 
 import javax.mail.Authenticator;
 import javax.mail.Message;
@@ -13,58 +38,28 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
-import android.os.StrictMode;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.Window;
-import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import androidx.annotation.NonNull;
-import androidx.fragment.app.DialogFragment;
-
-import com.manuel.mark_store.models.DetallePedido2;
-import com.manuel.mark_store.models.Pedido;
-import com.manuel.mark_store.models.ResponseMessage;
-import com.manuel.mark_store.service.ApiService;
-import com.manuel.mark_store.service.ApiServiceGenerator;
-import com.squareup.picasso.Picasso;
-
-import java.security.PrivateKey;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Properties;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class DialogDetallePedidoFragment extends DialogFragment {
+public class DialogDetallePedDeposFragment extends DialogFragment {
     public DialogPaymentFragment.CallbackResult callbackResult;
 
-    private static final String TAG = DialogDetallePedidoFragment.class.getSimpleName();
+    private static final String TAG = DialogDetallePedDeposFragment.class.getSimpleName();
 
     public void setOnCallbackResult(final DialogPaymentFragment.CallbackResult callbackResult) {
         this.callbackResult = callbackResult;
     }
     private int request_code = 0;
     private View root_view;
-    public TextView edtrecojo, edtpago, edtid, txtTotalDetalle, txtFechaDetalle, txtCantidadDetalle,
-            txtVueltoDetalle, txtDetallemedio,txtHoraEntrega;
+    public TextView edtrecojo, edtpago, edtid, txtTotalDetalle2, txtFechaDetalle, txtCantidadDetalle,
+            txtTitular, txtBanco,txtNumeroC,txtCC,txtCCI, txtDetallemedio2, txtHoraEntrega2;
     private Button btFinalizar;
     Integer totalCarritoDetalle, idproducto;
     Integer id_pedido;
     Integer cantidad;
     Integer id_producto;
-
+    String banco,titular,numero,cc,cci;
     //PAra email
     String correo;
     String contraseña;
@@ -74,7 +69,7 @@ public class DialogDetallePedidoFragment extends DialogFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        root_view = inflater.inflate(R.layout.dialog_detallepedido, container, false);
+        root_view = inflater.inflate(R.layout.dialog_detalle_depos, container, false);
         ((ImageButton) root_view.findViewById(R.id.bt_close)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -85,34 +80,56 @@ public class DialogDetallePedidoFragment extends DialogFragment {
         correo ="edsonpanduroch@gmail.com";
         contraseña = "Manuel10102000";
 
-        edtid = root_view.findViewById(R.id.txtidpedido);
-        edtrecojo = root_view.findViewById(R.id.txtdetallerocojo);
-        edtpago = root_view.findViewById(R.id.txtdetallepago);
+        edtid = root_view.findViewById(R.id.txtidpedido2);
+        edtrecojo = root_view.findViewById(R.id.txtdetallerocojo2);
+        edtpago = root_view.findViewById(R.id.txtdetallepago2);
 
-        txtTotalDetalle = root_view.findViewById(R.id.txtTotalDetalle);
-        txtFechaDetalle = root_view.findViewById(R.id.txtFechaDetalle);
-        txtCantidadDetalle = root_view.findViewById(R.id.txtCantidadDetalle);
-        txtVueltoDetalle = root_view.findViewById(R.id.txtVueltoDetalle);
-        txtDetallemedio = root_view.findViewById(R.id.txtdetallemedio);
-        txtHoraEntrega = root_view.findViewById(R.id.txtHoraentrega);
-
+        txtTotalDetalle2 = root_view.findViewById(R.id.txtTotalDetalle2);
+        txtFechaDetalle = root_view.findViewById(R.id.txtFechaDetalle2);
+        txtDetallemedio2 = root_view.findViewById(R.id.txtDetallemedio2);
+        txtCantidadDetalle = root_view.findViewById(R.id.txtCantidadDetalle2);
+        txtBanco = root_view.findViewById(R.id.txtBanco);
+        txtTitular = root_view.findViewById(R.id.txtTitular_cuenta);
+        txtNumeroC = root_view.findViewById(R.id.txtnum_tarjeta);
+        txtCC = root_view.findViewById(R.id.txtCC);
+        txtCCI = root_view.findViewById(R.id.txtCCI);
+        txtHoraEntrega2 = root_view.findViewById(R.id.txtHoraentrega2);
         totalCarritoDetalle= getArguments().getInt("cantidadcarrito");
         Log.e(TAG,"cantidadCarritoDetalle: "+totalCarritoDetalle);
 
         idproducto= getArguments().getInt("producto_id");
         Log.e(TAG,"productoidDetalle: "+idproducto);
 
+        banco = getArguments().getString("banco");
+        Log.e(TAG,"banco: "+banco);
+
+        titular = getArguments().getString("titular_cuenta");
+        Log.e(TAG,"titular: "+titular);
+
+        numero = getArguments().getString("num_tarjeta");
+        Log.e(TAG,"numero: "+numero);
+
+        cc = getArguments().getString("cc");
+        Log.e(TAG,"cc: "+cc);
+
+        cci = getArguments().getString("cci");
+        Log.e(TAG,"cci: "+cci);
+
+        txtBanco.setText(banco);
+        txtTitular.setText(titular);
+        txtNumeroC.setText(numero);
+        txtCC.setText(cc);
+        txtCCI.setText(cci);
+
         btFinalizar = root_view.findViewById(R.id.bt_finalizarDetalle);
         btFinalizar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-
                 id_pedido = Integer.parseInt(edtid.getText().toString());
                 cantidad = Integer.parseInt(txtCantidadDetalle.getText().toString());
                 id_producto = idproducto;
                 ApiService service = ApiServiceGenerator.createService(ApiService.class);
                 Call<ResponseMessage> call = service.crearDetalle(cantidad, id_producto,id_pedido);
-
                 call.enqueue(new Callback<ResponseMessage>() {
                     @Override
                     public void onResponse(Call<ResponseMessage> call, Response<ResponseMessage> response) {
@@ -156,7 +173,6 @@ public class DialogDetallePedidoFragment extends DialogFragment {
                 });
             }
         });
-
         initialize();
         return root_view;
     }
@@ -185,9 +201,9 @@ public class DialogDetallePedidoFragment extends DialogFragment {
                 message.setSubject("Recibo de pedido");
                 message.setRecipients(Message.RecipientType.TO,InternetAddress.parse("pandurochota9@gmail.com"));
                 message.setContent("Tu numero de pedido es: "+id_pedido+
-                                        "\nTotal de compra: "+txtTotalDetalle.getText().toString()+
-                                        "\nForma de pago: "+edtpago.getText().toString()+
-                                        "\nTipo de entrega: "+edtrecojo.getText().toString(),"text/html; charset=utf-8");
+                        "\nTotal de compra: "+txtTotalDetalle2.getText().toString()+
+                        "\nForma de pago: "+edtpago.getText().toString()+
+                        "\nTipo de entrega: "+edtrecojo.getText().toString(),"text/html; charset=utf-8");
                 Transport.send(message);
             }
         }catch (Exception e){
@@ -195,7 +211,6 @@ public class DialogDetallePedidoFragment extends DialogFragment {
         }
 
     }
-
     public void initialize(){
         ApiService service = ApiServiceGenerator.createService(ApiService.class);
 
@@ -217,8 +232,8 @@ public class DialogDetallePedidoFragment extends DialogFragment {
                             edtid.setText(Integer.toString(pedidos.get(i).getIdPedido()));
                             edtpago.setText(pedidos.get(i).getTipo_pago());
                             edtrecojo.setText(pedidos.get(i).getTipo_pedido());
-                            txtDetallemedio.setText(pedidos.get(i).getMedio_pago());
-                            txtTotalDetalle.setText("S/."+pedidos.get(i).getTotal().toString());
+                            txtDetallemedio2.setText(pedidos.get(i).getMedio_pago());
+                            txtTotalDetalle2.setText("S/."+pedidos.get(i).getTotal().toString());
                             txtCantidadDetalle.setText(String.valueOf(totalCarritoDetalle));
 
                             String fechaDetalle = pedidos.get(i).getFechaEntrega();
@@ -228,13 +243,12 @@ public class DialogDetallePedidoFragment extends DialogFragment {
                                 DateFormat format2 = new SimpleDateFormat("d MMM yyyy");
                                 String detalleFe = format2.format(date2);
                                 DateFormat format3 = new SimpleDateFormat("HH:mm");
-                                String detalleHo = format3.format(date2);
+                                String detalleHo2 = format3.format(date2);
                                 txtFechaDetalle.setText(detalleFe);
-                                txtHoraEntrega.setText(detalleHo);
+                                txtHoraEntrega2.setText(detalleHo2);
                             }catch (ParseException e){
                                 e.printStackTrace();
                             }
-                            txtVueltoDetalle.setText("S/."+pedidos.get(i).getVuelto());
                         }
 
 

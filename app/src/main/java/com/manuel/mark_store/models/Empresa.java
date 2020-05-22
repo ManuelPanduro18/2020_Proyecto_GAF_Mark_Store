@@ -12,6 +12,104 @@ public class Empresa {
     private String telefono2;
     private String direccion;
     private Date fecha_cre;
+    private String provincia;
+    private String distrito;
+    private String urbanizacion;
+    private String referencias;
+    private String banco;
+    private String titular_cuenta;
+    private String num_tarjeta;
+    private String cc;
+    private String cci;
+    private Integer horaIni;
+    private Integer horaFin;
+    public Integer getHoraIni() {
+        return horaIni;
+    }
+
+    public void setHoraIni(Integer horaIni) {
+        this.horaIni = horaIni;
+    }
+
+    public Integer getHoraFin() {
+        return horaFin;
+    }
+
+    public void setHoraFin(Integer horaFin) {
+        this.horaFin = horaFin;
+    }
+
+    public String getProvincia() {
+        return provincia;
+    }
+
+    public void setProvincia(String provincia) {
+        this.provincia = provincia;
+    }
+
+    public String getDistrito() {
+        return distrito;
+    }
+
+    public void setDistrito(String distrito) {
+        this.distrito = distrito;
+    }
+
+    public String getUrbanizacion() {
+        return urbanizacion;
+    }
+
+    public void setUrbanizacion(String urbanizacion) {
+        this.urbanizacion = urbanizacion;
+    }
+
+    public String getReferencias() {
+        return referencias;
+    }
+
+    public void setReferencias(String referencias) {
+        this.referencias = referencias;
+    }
+
+    public String getBanco() {
+        return banco;
+    }
+
+    public void setBanco(String banco) {
+        this.banco = banco;
+    }
+
+    public String getTitular_cuenta() {
+        return titular_cuenta;
+    }
+
+    public void setTitular_cuenta(String titular_cuenta) {
+        this.titular_cuenta = titular_cuenta;
+    }
+
+    public String getNum_tarjeta() {
+        return num_tarjeta;
+    }
+
+    public void setNum_tarjeta(String num_tarjeta) {
+        this.num_tarjeta = num_tarjeta;
+    }
+
+    public String getCc() {
+        return cc;
+    }
+
+    public void setCc(String cc) {
+        this.cc = cc;
+    }
+
+    public String getCci() {
+        return cci;
+    }
+
+    public void setCci(String cci) {
+        this.cci = cci;
+    }
 
     public Integer getIdEmpresa() {
         return idEmpresa;
@@ -97,6 +195,15 @@ public class Empresa {
                 ", telefono2='" + telefono2 + '\'' +
                 ", direccion='" + direccion + '\'' +
                 ", fecha_cre=" + fecha_cre +
+                ", provincia='" + provincia + '\'' +
+                ", distrito='" + distrito + '\'' +
+                ", urbanizacion='" + urbanizacion + '\'' +
+                ", referencias='" + referencias + '\'' +
+                ", banco='" + banco + '\'' +
+                ", titular_cuenta='" + titular_cuenta + '\'' +
+                ", num_tarjeta='" + num_tarjeta + '\'' +
+                ", cc='" + cc + '\'' +
+                ", cci='" + cci + '\'' +
                 '}';
     }
 }

@@ -51,25 +51,66 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+            <RadioGroup
+                android:id="@+id/radioGroup"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:orientation="horizontal">
+
+                <androidx.appcompat.widget.AppCompatRadioButton
+                    android:id="@+id/factura"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Factura"
+                    android:layout_gravity="center"
+                    android:textColor="@android:color/holo_blue_dark"
+                    android:textSize="16dp"
+                    android:theme="@style/RadioButtonStyle" />
+
+                <androidx.appcompat.widget.AppCompatRadioButton
+                    android:id="@+id/boleta"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Boleta"
+                    android:layout_gravity="center"
+                    android:textColor="@android:color/holo_blue_dark"
+                    android:textSize="16dp"
+                    android:theme="@style/RadioButtonStyle" />
+
+                <androidx.appcompat.widget.AppCompatRadioButton
+                    android:id="@+id/notaPed"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Not. Pedido"
+                    android:layout_gravity="center"
+                    android:textColor="@android:color/holo_blue_dark"
+                    android:textSize="16dp"
+                    android:theme="@style/RadioButtonStyle" />
+            </RadioGroup>
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/spacing_medium"
-                android:text="TOTAL"
+                android:layout_marginTop="@dimen/spacing_large"
+                android:text="TOTAL S/"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 android:textColor="@color/grey_60" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_large"
                 android:orientation="horizontal">
 
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:orientation="vertical">
+                    android:orientation="horizontal"
+                    android:layout_gravity="center">
 
                     <EditText
                         android:id="@+id/txttotal"
@@ -104,7 +145,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/spacing_medium"
                 android:layout_marginTop="@dimen/spacing_large"
-                android:text="Tipo de recibo"
+                android:text="Tipo de entrega"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 android:textColor="@color/grey_60" />
             <EditText
@@ -196,7 +237,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="@dimen/spacing_medium"
                         android:layout_marginTop="@dimen/spacing_large"
-                        android:text="Medio de pago:"
+                        android:text="Medio de pago"
                         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                         android:textColor="@color/grey_60" />
 
@@ -233,26 +274,27 @@
 
             </LinearLayout>
 
+            <TextView
+                android:id="@+id/txtMontopagoPedido"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/spacing_medium"
+                android:layout_marginTop="@dimen/spacing_large"
+                android:text="Monto a entregar S/"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textColor="@color/grey_60" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_large"
                 android:orientation="horizontal">
 
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/txtMontopagoPedido"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/spacing_medium"
-                        android:text="Cantidad de pago:"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                        android:textColor="@color/grey_60" />
+                    android:orientation="horizontal"
+                    android:layout_gravity="center">
 
                     <EditText
                         android:id="@+id/edtMontopagodepedido"
@@ -299,7 +341,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="@dimen/spacing_medium"
-                        android:text="Últimos dígitos de tarjeta:"
+                        android:text="4 dígitos de la tarjeta"
                         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                         android:textColor="@color/grey_60" />
 
@@ -374,29 +416,81 @@
                 android:inputType="number"
                 android:maxLength="9"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/spacing_medium"
-                android:layout_marginTop="@dimen/spacing_large"
-                android:text="Fecha de pedido"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                android:textColor="@color/grey_60" />
-
-            <EditText
-                android:id="@+id/edtFechaPedido"
-                style="@style/EditText.Flat.Grey"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/spacing_xmlarge"
-                android:background="@drawable/edit_text_round_bg_white"
-                android:drawableEnd="@drawable/ic_expand_arrow"
-                android:drawableRight="@drawable/ic_expand_arrow"
-                android:editable="false"
-                android:focusable="false"
-                android:minHeight="@dimen/spacing_xmlarge"
-                android:paddingLeft="@dimen/spacing_middle"
-                android:paddingRight="@dimen/spacing_middle"
-                android:text="Seleccione la fecha" />
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_large"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/spacing_medium"
+                        android:layout_marginTop="@dimen/spacing_large"
+                        android:text="Fecha de entrega"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                        android:textColor="@color/grey_60" />
+
+                    <EditText
+                        android:id="@+id/edtFechaPedido"
+                        style="@style/EditText.Flat.Grey"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/spacing_xmlarge"
+                        android:background="@drawable/edit_text_round_bg_white"
+                        android:drawableEnd="@drawable/ic_expand_arrow"
+                        android:drawableRight="@drawable/ic_expand_arrow"
+                        android:editable="false"
+                        android:focusable="false"
+                        android:minHeight="@dimen/spacing_xmlarge"
+                        android:paddingLeft="@dimen/spacing_middle"
+                        android:paddingRight="@dimen/spacing_middle"
+                        android:text="Seleccione fecha" />
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="@dimen/spacing_large"
+                    android:layout_height="0dp" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/spacing_medium"
+                        android:layout_marginTop="@dimen/spacing_large"
+                        android:text="Hora de entrega"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                        android:textColor="@color/grey_60" />
+
+                    <EditText
+                        android:id="@+id/edt_hora"
+                        style="@style/EditText.Flat.Grey"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/spacing_xmlarge"
+                        android:background="@drawable/edit_text_round_bg_white"
+                        android:drawableEnd="@drawable/ic_expand_arrow"
+                        android:drawableRight="@drawable/ic_expand_arrow"
+                        android:editable="false"
+                        android:focusable="false"
+                        android:minHeight="@dimen/spacing_xmlarge"
+                        android:paddingLeft="@dimen/spacing_middle"
+                        android:paddingRight="@dimen/spacing_middle"
+                        android:text="Seleccione hora" />
+
+                </LinearLayout>
+
+            </LinearLayout>
 
 
             <Button
